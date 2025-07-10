@@ -3,7 +3,7 @@
 @section('content')
 
 <section class="home-slider owl-carousel">
-    <div class="slider-item" style="background-image: url(images/bg_1.jpg);">
+    <div class="slider-item" style="background-image: url({{ asset('assets/images/bg_1.jpg') }});">
         <div class="overlay"></div>
       <div class="container">
         <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
@@ -19,7 +19,7 @@
       </div>
     </div>
 
-    <div class="slider-item" style="background-image: url(images/bg_2.jpg);">
+    <div class="slider-item" style="background-image: url({{asset('assets/images/bg_2.jpg') }});">
         <div class="overlay"></div>
       <div class="container">
         <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <div class="slider-item" style="background-image: url(images/bg_3.jpg);">
+    <div class="slider-item" style="background-image: url({{ asset('assets/images/bg_3.jpg') }});">
         <div class="overlay"></div>
       <div class="container">
         <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
@@ -273,50 +273,19 @@
       </div>
     </div>
     <div class="row">
-        <div class="col-md-3">
-            <div class="menu-entry">
-                    <a href="#" class="img" style="background-image: url(images/menu-1.jpg);"></a>
+        @foreach ($products as $product)
+            <div class="col-md-3">
+                <div class="menu-entry">
+                        <a href="#" class="img" style="background-image: url({{ asset('assets/images/' . $product->image.'')}});"></a>
                     <div class="text text-center pt-4">
-                        <h3><a href="#">Coffee Capuccino</a></h3>
-                        <p>A small river named Duden flows by their place and supplies</p>
-                        <p class="price"><span>$5.90</span></p>
-                        <p><a href="#" class="btn btn-primary btn-outline-primary">Add to Cart</a></p>
+                        <h3><a href="#">{{ $product->name }}</a></h3>
+                        <p>{{ $product->description }}</p>
+                        <p class="price"><span>${{ $product->price }}</span></p>
+                        <p><a href="product-single.html" class="btn btn-primary btn-outline-primary">Add to Cart</a></p>
                     </div>
                 </div>
-        </div>
-        <div class="col-md-3">
-            <div class="menu-entry">
-                    <a href="#" class="img" style="background-image: url(images/menu-2.jpg);"></a>
-                    <div class="text text-center pt-4">
-                        <h3><a href="#">Coffee Capuccino</a></h3>
-                        <p>A small river named Duden flows by their place and supplies</p>
-                        <p class="price"><span>$5.90</span></p>
-                        <p><a href="#" class="btn btn-primary btn-outline-primary">Add to Cart</a></p>
-                    </div>
-                </div>
-        </div>
-        <div class="col-md-3">
-            <div class="menu-entry">
-                    <a href="#" class="img" style="background-image: url(images/menu-3.jpg);"></a>
-                    <div class="text text-center pt-4">
-                        <h3><a href="#">Coffee Capuccino</a></h3>
-                        <p>A small river named Duden flows by their place and supplies</p>
-                        <p class="price"><span>$5.90</span></p>
-                        <p><a href="#" class="btn btn-primary btn-outline-primary">Add to Cart</a></p>
-                    </div>
-                </div>
-        </div>
-        <div class="col-md-3">
-            <div class="menu-entry">
-                    <a href="#" class="img" style="background-image: url(images/menu-4.jpg);"></a>
-                    <div class="text text-center pt-4">
-                        <h3><a href="#">Coffee Capuccino</a></h3>
-                        <p>A small river named Duden flows by their place and supplies</p>
-                        <p class="price"><span>$5.90</span></p>
-                        <p><a href="#" class="btn btn-primary btn-outline-primary">Add to Cart</a></p>
-                    </div>
-                </div>
-        </div>
+            </div>
+        @endforeach
     </div>
     </div>
 </section>
