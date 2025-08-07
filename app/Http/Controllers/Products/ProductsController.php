@@ -7,7 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Product\Product;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Product\Cart;
-use Redirect;
+use Illuminate\Support\Facades\Redirect;
+
 
 class ProductsController extends Controller
 {
@@ -16,7 +17,7 @@ class ProductsController extends Controller
         $product = Product::find($id);
 
         $relatedProducts = Product::where('type', $product->type)
-        ->where('id', '!=', $id)->taken('4')
+        ->where('id', '!=', $id)->take('4')
         ->orderBy('id', 'desc')
         ->get();
 
@@ -28,7 +29,7 @@ class ProductsController extends Controller
         return view('products.productsingle', compact('product', 'relatedProducts', 'checkingInCart'));
     }
 
-    public function addCart(Request $request, $id)
+    public function addCart(Request $request, $id)       //this is when your Submit  a from
     {
 
         $addCart =  Cart::create([
@@ -40,6 +41,8 @@ class ProductsController extends Controller
 
         ]);
 
+
+
         return Redirect::route('product.single', $id)->with( ['success' => 'Product added to cart successfully'] );
 
 
@@ -47,6 +50,7 @@ class ProductsController extends Controller
 
     public function cart()
     {
+
         $cartProducts = Cart::where('user_id', Auth::user()->id)
         ->orderBy('id', 'desc')
         ->get();
@@ -54,5 +58,28 @@ class ProductsController extends Controller
 
         return view('products.cart', compact('cartProducts'));
     }
+
+
+    public function deleteProductCart($id)
+    {
+        $deleteProductCart = Cart::where('pro_id', $id)
+          ->where('user_id', Auth::user()->id);
+
+          $deleteProductCart->delete();
+
+
+        if($deleteProductCart){
+            return Redirect::route('cart')->with( ['delete' => 'Product deleted from cart successfully'] );
+        }
+
+
+    }
+
+
+
+
+
+
+
 
 }

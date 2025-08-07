@@ -17,9 +17,24 @@
             </div>
         </div>
     </section>
-    @if (session::has('success'))
-        {{ session::get('success') }}
+    <div class="container">
+    @if (Session::has('success'))
+        <p class="alert {{ Session::get('alert-class', 'alert-info') }} ">
+        {{ Session::get('success') }}
+        </p>
     @endif
+    </div>
+        {{-- We will use this later --}}
+    {{-- <div class="container">
+        @foreach (['success', 'error', 'warning', 'info'] as $msg)
+    @if(Session::has($msg))
+        <div class="alert alert-{{ $msg }} alert-dismissible fade show" role="alert">
+            {{ Session::get($msg) }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+    @endforeach
+    </div> --}}
 
     <section class="ftco-section">
         <div class="container">
@@ -55,7 +70,7 @@
                         @if ($checkingInCart == 0)
                             <button type="submit" class="btn btn-primary py-3 px-5">Add to Cart</button>
                         @else
-                            <button class="btn btn-primary py-3 px-5" disabled>Added to Cart</button>
+                            <button style="background-color: black" class="text-white btn btn-primary py-3 px-5" disabled>Added to Cart</button>
                         @endif
                 </div>
             </div>

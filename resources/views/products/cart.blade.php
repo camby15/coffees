@@ -24,8 +24,8 @@
               <div class="row">
               <div class="col-md-12 ftco-animate">
                   <div class="cart-list">
-                      <table class="table">
-                          <thead class="thead-primary">
+                      <table class="table-dark" style="width: 1100px">
+                          <thead style="background-color: #c49b63; height: 60px">
                             <tr class="text-center">
                               <th>&nbsp;</th>
                               <th>&nbsp;</th>
@@ -38,10 +38,10 @@
                           <tbody>
 
                             @foreach ($cartProducts as $cartProduct)
-                            <tr class="text-center">
-                                <td class="product-remove"><a href="#"><span class="icon-close"></span></a></td>
+                            <tr class="text-center" style="height: 140px">
+                                <td class="product-remove"><a href="#"><span class="{{ route('cart.product.delete', $cartProduct->pro_id) }}"></span></a></td>
 
-                                <td class="image-prod"><img src="{{ asset('assets/images/'.$cartProduct->image.'') }}"></td>
+                                <td class="image-prod"><img width="60" height="60" src="{{ asset('assets/images/'.$cartProduct->image.'') }}"></td>
 
                                 <td class="product-name">
                                     <h3>{{ $cartProduct->name }}</h3>
