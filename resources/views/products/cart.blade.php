@@ -4,7 +4,7 @@
 
 <section class="home-slider owl-carousel">
 
-    <div class="slider-item" style="background-image: url({{ asset('assets/images/bg_3.jpg') }});">
+    <div class="slider-item" style="background-image: url({{ asset('assets/images/bg_3.jpg') }})">
         <div class="overlay"></div>
       <div class="container">
         <div class="row slider-text justify-content-center align-items-center">
@@ -18,6 +18,14 @@
       </div>
     </div>
   </section>
+
+  <div class="container">
+        @if (Session::has('delete'))
+            <p class="alert {{ Session::get('alert-class', 'alert-info') }} ">
+            {{ Session::get('delete') }}
+            </p>
+        @endif
+    </div>
 
       <section class="ftco-section ftco-cart">
           <div class="container">
@@ -36,33 +44,37 @@
                             </tr>
                           </thead>
                           <tbody>
+                            @if ($cartProducts->count() > 0)
+                                @foreach ($cartProducts as $cartProduct)
+                                <tr class="text-center" style="height: 140px">
+                                    <td class="product-remove">
+                                        <a href="{{ route('cart.product.delete', $cartProduct->pro_id) }}" class="text-danger">
+                                            <i class="icon-close"></i>
+                                        </a>
+                                    </td>
 
-                            @foreach ($cartProducts as $cartProduct)
-                            <tr class="text-center" style="height: 140px">
-                                <td class="product-remove"><a href="#"><span class="{{ route('cart.product.delete', $cartProduct->pro_id) }}"></span></a></td>
+                                    <td class="image-prod">
+                                        <img width="60" height="60" src="{{ asset('assets/images/'.$cartProduct->image.'') }}" alt="{{ $cartProduct->name }}">
+                                    </td>
 
-                                <td class="image-prod"><img width="60" height="60" src="{{ asset('assets/images/'.$cartProduct->image.'') }}"></td>
+                                    <td class="product-name">
+                                        <h3>{{ $cartProduct->name }}</h3>
+                                    </td>
 
-                                <td class="product-name">
-                                    <h3>{{ $cartProduct->name }}</h3>
-                                    <p>{{ $cartProduct->description }}</p>
-                                </td>
+                                    <td class="price">${{ $cartProduct->price }}</td>
 
-                                <td class="price">${{ $cartProduct->price }}</td>
+                                    <td>
+                                        <div class="input-group mb-3">
+                                            <input disabled type="text" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
+                                        </div>
+                                    </td>
 
-                                <td>
-                                    <div class="input-group mb-3">
-                                        <input disabled type="text" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
-                                     </div>
-                                </td>
-
-                                <td class="total">${{ $cartProduct->price }}</td>
-                              </tr><!-- END TR-->
-                            @endforeach
-
-
-
-
+                                    <td class="total">${{ $cartProduct->price }}</td>
+                                </tr><!-- END TR-->
+                                @endforeach
+                            @else
+                                <p class="alert alert-success">Your cart is empty</p>
+                            @endif
                           </tbody>
                         </table>
                     </div>
@@ -74,29 +86,38 @@
                       <h3>Cart Totals</h3>
                       <p class="d-flex">
                           <span>Subtotal</span>
-                          <span>$20.60</span>
+                          <span>${{ $totalPrice }}</span>
                       </p>
                       <p class="d-flex">
                           <span>Delivery</span>
-                          <span>$0.00</span>
+                          <span>${{ $totalPrice }}</span>
                       </p>
-                      <p class="d-flex">
+                      {{-- <p class="d-flex">
                           <span>Discount</span>
-                          <span>$3.00</span>
-                      </p>
+                          <span>${{ $totalPrice }}</span>
+                      </p>--}}
                       <hr>
                       <p class="d-flex total-price">
                           <span>Total</span>
-                          <span>$17.60</span>
+                          <span>${{ $totalPrice }}</span>
                       </p>
                   </div>
-                  <p class="text-center"><a href="checkout.html" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
+                  @if($cartProducts->count() > 0)
+                    <form method="POST" action="{{ route('prepare.checkout') }}"> 
+                        @csrf
+                        <input name="price" type="hidden" value="{{ $totalPrice }}">
+                    
+                        <button type="submit" name="submit" class="btn btn-primary py-3 px-4">Proceed to Checkout</button>
+                    </form>
+                  @else
+                    <p class="text-center alert alert-success">Your cart is empty</p>
+                  @endif
               </div>
           </div>
           </div>
       </section>
 
-  <section class="ftco-section">
+  {{-- <section class="ftco-section">
       <div class="container">
           <div class="row justify-content-center mb-5 pb-3">
         <div class="col-md-7 heading-section ftco-animate text-center">
@@ -152,7 +173,7 @@
           </div>
       </div>
       </div>
-  </section>
+  </section> --}}
 
 
 

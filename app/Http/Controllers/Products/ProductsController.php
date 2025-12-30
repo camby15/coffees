@@ -8,6 +8,8 @@ use App\Models\Product\Product;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Product\Cart;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
+use App\Models\Product\Order;
 
 
 class ProductsController extends Controller
@@ -55,8 +57,12 @@ class ProductsController extends Controller
         ->orderBy('id', 'desc')
         ->get();
 
+        $totalPrice = Cart::where('user_id', Auth::user()->id)
+        ->orderBy('id', 'desc')
+        ->sum('price');
 
-        return view('products.cart', compact('cartProducts'));
+
+        return view('products.cart', compact('cartProducts', 'totalPrice'));
     }
 
 
@@ -64,6 +70,7 @@ class ProductsController extends Controller
     {
         $deleteProductCart = Cart::where('pro_id', $id)
           ->where('user_id', Auth::user()->id);
+          
 
           $deleteProductCart->delete();
 
@@ -74,6 +81,50 @@ class ProductsController extends Controller
 
 
     }
+
+
+    public function prepareCheckout(Request $request)      
+    {
+
+        $value = $request->price;
+
+        $price = Session::put('price', $value); 
+
+        $newPrice = Session::get($price);
+
+
+
+
+            if($newPrice > 0){
+                return Redirect::route('checkout');
+            }
+
+
+    }
+    public function checkout()
+    {
+       return view('products.checkout');
+    }
+
+
+
+    //storeCheckout
+    public function storeCheckout(Request $request)       
+    {
+        $checkout = Order::create($request->all());
+
+        echo 'Well come to payment gateway';
+            
+    
+
+
+
+        //return Redirect::route('product.single', $id)->with( ['success' => 'Product added to cart successfully'] );
+
+
+    }
+
+    
 
 
 
