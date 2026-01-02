@@ -106,8 +106,6 @@ class ProductsController extends Controller
        return view('products.checkout');
     }
 
-
-
     //storeCheckout
     public function storeCheckout(Request $request)       
     {
@@ -119,7 +117,7 @@ class ProductsController extends Controller
 
 
 
-        //return Redirect::route('product.single', $id)->with( ['success' => 'Product added to cart successfully'] );
+        return Redirect::route('product.pay');
 
 
     }

@@ -60,7 +60,7 @@
 		            <div class="col-md-12">
 		            	<div class="form-group">
 	                	<label for="streetaddress">Street Address</label>
-	                  <textarea cols="10" rows="10" name="street_address" class="form-control" placeholder="House number and street name"></textarea>
+	                  <textarea cols="10" rows="10" name="address" class="form-control" placeholder="House number and street name"></textarea>
 	                </div>
 		            </div>
 		            {{-- <div class="col-md-12">
